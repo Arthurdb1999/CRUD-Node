@@ -20,6 +20,20 @@ module.exports = {
     },
 
     async update(req, res) {
+        const { nome, idade, email, cidade, _id } = req.body;
+        const { user_id } = req.params;
+
+        const resUpdate = User.updateOne({_id: user_id}, {
+            $set: {nome: nome},
+            $set: {idade: idade},
+            $set: {email: email},
+            $set: {cidade: cidade}
+        });
+
+        console.log(resUpdate)
+        console.log("updated nome: ", nome);
+
+        return res.json(resUpdate);
 
     },
 
