@@ -13,7 +13,7 @@ export default function Routes(){
             <Switch>
                 <Route path="/" exact component={Initial}/>
                 <Route path="/create" component={Create}/>
-                <Route path="/update" component={Update}/>
+                <Route path="/update/:id" component={Update}/>
             </Switch>
         </BrowserRouter>
     )

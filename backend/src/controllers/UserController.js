@@ -15,23 +15,32 @@ module.exports = {
         return res.json(user);
     },
 
-    async destroy(req, res) {
+    async destroy(req, res, next) {
+        const { _id } = req.body.user;
 
+        //console.log(req.body.user);
+
+        const resDelete = await User.deleteOne({ _id: _id });
+
+        console.log("user deleted: ", req.body.user.nome);
+
+        return res.json(resDelete);
     },
 
     async update(req, res) {
-        const { nome, idade, email, cidade, _id } = req.body;
+        const { nome, idade, email, cidade } = req.body;
         const { user_id } = req.params;
 
-        const resUpdate = User.updateOne({_id: user_id}, {
-            $set: {nome: nome},
-            $set: {idade: idade},
-            $set: {email: email},
-            $set: {cidade: cidade}
+        const resUpdate = await User.updateOne({ _id: user_id }, {
+            $set: {
+                nome: nome,
+                idade: idade,
+                email: email,
+                cidade: cidade
+            },
         });
 
-        console.log(resUpdate)
-        console.log("updated nome: ", nome);
+        console.log("updated ", nome);
 
         return res.json(resUpdate);
 
@@ -42,5 +51,13 @@ module.exports = {
         console.log('retrieved');
         return res.json(users);
 
-    }
+    },
+
+    async show(req, res) {
+        const { user } = req.headers;
+
+        const currentUser = await User.findById(user)
+
+        return res.json(currentUser);
+    },
 };
